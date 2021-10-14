@@ -85,56 +85,70 @@
             <div class="column"><img src="images/bush.jpg" width=100 hight=100 id="image23" onclick="check(22);"></div>
             <div class="column"><img src="images/bush.jpg" width=100 hight=100 id="image24" onclick="check(23);"></div>
         </div>
-
-        <script>
-            let ids = ["image1", "image2", "image3", "image4", "image5", "image6", "image7", "image8", "image9", "image10", "image11", "image12", "image13", "image14", "image15", "image16", "image17", "image18", "image19", "image20", "image21", "image22", "image23", "image24"]
-            tirecount = 0
-            animalLocation = 13
-            clicks = 1
-            function check(position) {
-                id = ids[position]
-                if (position == animalLocation) {
-                    document.getElementById(id).src = "images/alligator.jpg"
-                }
-                out = document.getElementById("tries")
-                out.innerHTML = "Number of tries is " + clicks
-                clicks += 1
-                distance(position, animalLocation)
-            }
-            function distance(position, animalLocation) {
-                row = 0
-                column = 0
-                count = 0
-                rowL = 0
-                columnL = 0
-                lCount = 0
-                id2 = ids[position]
-                for (i = 0; i < 4; i++) {
-                    for (j = 0; j < 6; j++) {
-                        if (id2 == ids[count]) {
-                            row = i
-                            column = j
-                        }
-                        count += 1
-                    }
-                }
-                for (i = 0; i < 4; i++) {
-                    for (j = 0; j < 6; j++) {
-                        if (ids[animalLocation] == ids[lCount]) {
-                            rowL = i
-                            columnL = j
-                        }
-                        lCount += 1
-                    }
-                }
-                horizantaldistance = Math.abs(column - columnL)
-                verticalDistance = Math.abs(row - rowL)
-                actualdistance = Math.max(horizantaldistance, verticalDistance)
-                ret = document.getElementById("distance")
-                ret.innerHTML = "Distance is " + actualdistance
-            }
-        </script>
     </div>
+    <script>
+        let ids = ["image1", "image2", "image3", "image4", "image5", "image6", "image7", "image8", "image9", "image10", "image11", "image12", "image13", "image14", "image15", "image16", "image17", "image18", "image19", "image20", "image21", "image22", "image23", "image24"]
+        tirecount = 0
+        clicks = 1
+        min = 0
+        max = 23
+        animalLocation = Math.floor(Math.random() * (max - min + 1) + min)
+        function check(position) {
+            id = ids[position]
+            if (position == animalLocation) {
+                document.getElementById(id).src = "images/alligator.jpg"
+            }
+            out = document.getElementById("tries")
+            out.innerHTML = "Number of tries is " + clicks
+            clicks += 1
+            distance(position, animalLocation)
+            reset();
+        }
+        function reset() {
+            clicks = 0
+            out = document.getElementById("tries")
+            out.innerHTML = "Number of tries is " + clicks
+            animalLocation = Math.floor(Math.random() * (max - min + 1) + min)
+        }
+        function distance(position, animalLocation) {
+            row = 0
+            column = 0
+            count = 0
+            rowL = 0
+            columnL = 0
+            lCount = 0
+            id2 = ids[position]
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 6; j++) {
+                    if (id2 == ids[count]) {
+                        row = i
+                        column = j
+                    }
+                    count += 1
+                    if (count > 23) {
+                        count = 0
+                    }
+                }
+            }
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 6; j++) {
+                    if (ids[animalLocation] == ids[lCount]) {
+                        rowL = i
+                        columnL = j
+                    }
+                    lCount += 1
+                    if (lCount > 23) {
+                        lCount = 0
+                    }
+                }
+            }
+            horizantaldistance = Math.abs(column - columnL)
+            verticalDistance = Math.abs(row - rowL)
+            actualdistance = Math.max(horizantaldistance, verticalDistance)
+            ret = document.getElementById("distance")
+            ret.innerHTML = "Distance is " + actualdistance
+        }
+    </script>
 </body>
 
 </html>
